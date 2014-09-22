@@ -1,0 +1,90 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:lang="http://www.springframework.org/schema/lang"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:gfe="http://www.springframework.org/schema/gemfire"
+
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/lang
+       http://www.springframework.org/schema/lang/spring-lang.xsd
+       http://www.springframework.org/schema/gemfire http://www.springframework.org/schema/gemfire/spring-gemfire.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+    <context:annotation-config/>
+    <context:component-scan base-package="dao"/>
+    <context:component-scan base-package="com.ellin.gemfire.util"/>
+
+
+
+    <bean id="pdxAutoSerializer" class="com.gemstone.gemfire.pdx.ReflectionBasedAutoSerializer">
+        <constructor-arg>
+            <array>
+                <value>com.ellin.gemfire.model.*</value>
+            </array>
+        </constructor-arg>
+    </bean>
+
+ <!--   <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="org.hsqldb.jdbc.JDBCDriver"/>
+        <property name="url" value="jdbc:hsqldb:hsql://localhost:9001/testdb"/>
+        <property name="username" value="sa"/>
+        <property name="password" value=""/>
+        <property name="testOnBorrow" value="true"/>
+    </bean>-->
+    <!--
+   <bean id="dataSource" class = "com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+   <property name="driverClass" value="org.hsqldb.jdbc.JDBCDriver" />
+   <property name="jdbcUrl" value="jdbc:hsqldb:hsql://localhost:9001/testdb" />
+   <property name="user" value="sa" />
+   <property name="password" value="" />
+       <property name="idleConnectionTestPeriod"  value="1"/>
+    </bean>
+
+   <property name="idleConnectionTestPeriod"  value="5"/>
+
+
+
+   these are C3P0 properties
+
+      c3p0.acquireRetryAttempts = 0
+   c3p0.acquireRetryDelay = 3000
+   c3p0.breakAfterAcquireFailure = false
+   Also, to avoid broken connections lying in your pool indefinitely, use connection age management:
+
+   c3p0.maxConnectionAge = 6000
+   c3p0.maxIdleTime = 6000
+   c3p0.maxIdleTimeExcessConnections = 1800
+   c3p0.idleConnectionTestPeriod = 3600
+   These may be quite expensive, but helpful if above is not enough:
+
+   c3p0.testConnectionOnCheckout = true
+   c3p0.preferredTestQuery = SELECT 1;
+
+      FM using idleConnectionTestPeriod=5
+      <property name="acquireIncrement" value="${c3p0.acquireIncrement}" />
+      <property name="minPoolSize" value="${c3p0.minPoolSize}" />
+      <property name="maxPoolSize" value="${c3p0.maxPoolSize}" />
+      <property name="maxIdleTime" value="${c3p0.maxIdleTime}" />
+   </bean>
+                                                                 -->
+    <!--<bean id="sessionFactory"
+          class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        &lt;!&ndash;<property name="dataSource" ref="dataSource" /> &ndash;&gt;
+        <property name="packagesToScan" value="model" />
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.show_sql">true</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="hibernateSession" factory-bean="sessionFactory" factory-method="openSession" destroy-method="close"/>
+-->
+
+    <bean id="someId" class="org.springframework.orm.hibernate4.HibernateExceptionTranslator"/>
+
+    <bean id="persistenceExceptionTranslationPostProcessor"
+          class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+ </beans>
